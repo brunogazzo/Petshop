@@ -9,7 +9,12 @@
             <span th:text="${cli.nome}"></span>
              -
             <span th:text="${cli.cpf}"></span>
+
+            <a th:href="@{/cliente-excluir(id=${cli.id})}">X</a>
         </li>
     </ul>
+
+    <a href="/cliente-adicionar">Adicionar</a>
+
 </body>
 </html>
