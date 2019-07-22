@@ -6,7 +6,8 @@
 
     <ul th:each="cli : ${clientes}">
         <li>
-            <span th:text="${cli.nome}"></span>
+            <a th:href="@{/animais-listar(clientId=${cli.id})}"
+               th:text="${cli.nome}"></a>
              -
             <span th:text="${cli.cpf}"></span>
 
