@@ -1,14 +1,19 @@
 package br.com.tt.petshop.model;
 
 import br.com.tt.petshop.enums.EspecieEnum;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 public class Animal {
     private String nome;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dataNascimento;
     private EspecieEnum especie;
     private Long clientId;
+
+    public Animal() {
+    }
 
     public Animal(String nome, LocalDate dataNascimento, EspecieEnum especie, Long clientId) {
         this.nome = nome;
