@@ -28,4 +28,8 @@ public class AnimalRepository {
         }
         return animaisDoCliente;
     }
+
+    public void save(Animal animal) {
+        animais.add(animal);
+    }
 }

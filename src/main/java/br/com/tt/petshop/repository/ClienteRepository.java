@@ -34,4 +34,20 @@ public class ClienteRepository {
     public List<Cliente> findAll() {
         return clientes;
     }
+
+    public Cliente find(Long clientId) {
+//        Cliente cliente = new Cliente();
+//        cliente.setId(clientId);
+//        int index = clientes.indexOf(cliente);
+//        if(index > 0){
+//            return clientes.get(index);
+//        }
+
+        for (Cliente cliente: clientes) {
+            if(cliente.getId().equals(clientId)){
+                return cliente;
+            }
+        }
+        return null;
+    }
 }

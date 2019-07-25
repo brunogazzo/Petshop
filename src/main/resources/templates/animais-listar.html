@@ -8,7 +8,9 @@
     <h2>Animais: </h2>
     <ul th:each="animal : ${animais}">
         <li th:object="${animal}">
-            <label th:text="*{nome}"/>
+            <label th:text="*{nome}"/> -
+            <label th:text="*{dataNascimento}"/>
+
         </li>
     </ul>
 

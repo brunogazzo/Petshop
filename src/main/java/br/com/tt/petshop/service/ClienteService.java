@@ -65,4 +65,11 @@ public class ClienteService {
         }
     }
 
+    public void validarSeAdimplente(Long clientId) throws BusinessException {
+        Cliente cliente = clienteRepository.find(clientId);
+
+        if(cliente.isInadimplente()){
+            throw new BusinessException("Cliente não está adimplente!");
+        }
+    }
 }
