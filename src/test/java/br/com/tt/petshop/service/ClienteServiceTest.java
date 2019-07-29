@@ -1,32 +1,95 @@
 package br.com.tt.petshop.service;
 
+import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.repository.ClienteRepository;
-import org.hamcrest.CoreMatchers;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ClienteServiceTest {
 
     private ClienteService clienteService;
+
+    @Mock
     private ClienteRepository clienteRepository;
 
-    @Test
-    public void deveriaRetornarListaVazia(){
-
-        clienteRepository = new ClienteRepository();
+    @Before
+    public void setUp() {
         clienteService = new ClienteService(clienteRepository);
+    }
 
+    @Test
+    public void deveriaRetornarListaVazia() {
+
+        //Arrange
+
+        //Act
         List<Cliente> clientes = clienteService.listar();
 
+        //Assert
         assertNotNull("A lista não deveria ser nula",
                 clientes);
-        assertEquals("A lista deveria ter 2 clientes",
-                2, clientes.size());
-//        fail("O nome é igual a ");
+        assertEquals("A lista deveria retornar nenhum cliente",
+                0, clientes.size());
+        verify(clienteRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void deveriaRetornarListaComClientes() {
+        // Arrange - Setup
+        List<Cliente> listaClientes = new ArrayList<>();
+        listaClientes.add(new Cliente(1L, "Fulano", "000.111.222-33"));
+        listaClientes.add(new Cliente(2L, "Ciclano", "111.222.333-44"));
+        when(clienteRepository.findAll()).thenReturn(listaClientes);
+
+        // Act - Execução!
+        List<Cliente> clientes = clienteService.listar();
+
+        // Assert - Verificação
+        assertEquals("Deveria retornar 2 clientes", 2, clientes.size());
+        assertEquals("Deveria retornar o Fulano", "Fulano", clientes.get(0).getNome());
+    }
+
+    @Test
+    public void deveriaRemoverComSucesso() {
+        //Arrange
+        Cliente clienteDeletado = new Cliente(12L, null, null);
+
+        //Act
+        clienteService.remover(12L);
+
+        //Assert
+        verify(clienteRepository)
+                .delete(clienteDeletado);
+        verifyNoMoreInteractions(clienteRepository);
+    }
+
+    @Test
+    public void deveriaAdicionarComSucesso() throws BusinessException {
+        Cliente cliente = new Cliente(1L, "Fulano da Silva Silva", "000.211.344-02");
+
+        clienteService.adicionar(cliente);
+
+        verify(clienteRepository).save(cliente);
+    }
+
+    @Test
+    public void deveriaLancarBusinessException() {
+        try {
+            clienteService.adicionar(null);
+            fail("Deveria ter lançado exceção!");
+        } catch (BusinessException e) {
+            assertEquals("Nome deveria ter 2 partes", e.getMessage());
+         }
     }
 }
