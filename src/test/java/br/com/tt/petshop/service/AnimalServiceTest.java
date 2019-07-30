@@ -1,6 +1,5 @@
 package br.com.tt.petshop.service;
 
-import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Animal;
 import br.com.tt.petshop.repository.AnimalRepository;
@@ -14,6 +13,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static br.com.tt.petshop.enums.EspecieEnum.*;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -46,11 +47,11 @@ public class AnimalServiceTest {
     public void deveriaRetornarListaComAnimais(){
         //Arrange
         List<Animal> listaCliente01 = Arrays.asList(
-                new Animal("Rex", LocalDate.now(), EspecieEnum.MAMIFERO, 01L),
-                new Animal("Totó", LocalDate.now().minusYears(1), EspecieEnum.MAMIFERO, 01L)
+                new Animal("Rex", LocalDate.now(), MAMIFERO, 01L),
+                new Animal("Totó", LocalDate.now().minusYears(1), MAMIFERO, 01L)
         );
         List<Animal> listaCliente02 = Arrays.asList(
-                new Animal("Rex", LocalDate.now(), EspecieEnum.MAMIFERO, 02L)
+                new Animal("Rex", LocalDate.now(), MAMIFERO, 02L)
         );
         when(animalRepository.listar(1L)).thenReturn(listaCliente01);
         when(animalRepository.listar(2L)).thenReturn(listaCliente02);
@@ -70,7 +71,15 @@ public class AnimalServiceTest {
                 animaisCliente02);
     }
 
-    @Test(expected = BusinessException.class)
+    @Test
+    public void deveriaRetornarEspecies(){
+        List<String> especies = animalService.listarEspecies();
+        assertArrayEquals("Deveria ter o mesmo array de espécies",
+                especies.toArray(),
+                new String[]{REPTIL.name(), MAMIFERO.name(), PEIXE.name()});
+    }
+
+    @Test
     public void deveriaFalharClienteInadinplente() throws BusinessException {
 //        when(clienteService.validarSeAdimplente(01L)).thenThrow(BusinessException.class);
         //Em métodos VOID para retornar exceção:
