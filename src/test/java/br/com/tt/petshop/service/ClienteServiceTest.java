@@ -84,12 +84,84 @@ public class ClienteServiceTest {
     }
 
     @Test
-    public void deveriaLancarBusinessException() {
+    public void deveriaFalharPorNaoTerNome() {
+        Cliente cliente = new Cliente(1L, null, "000.211.344-02");
         try {
-            clienteService.adicionar(null);
-            fail("Deveria ter lançado exceção!");
+            clienteService.adicionar(cliente);
+            fail("Deveria ter lançado exceção por não ter nome!");
         } catch (BusinessException e) {
-            assertEquals("Nome deveria ter 2 partes", e.getMessage());
+            assertEquals("Nome deve ser informado!", e.getMessage());
+        }
+    }
+
+    @Test
+    public void deveriaFalharPorNaoTerNomeCompleto() {
+        Cliente cliente = new Cliente(1L, "Fulano", "000.211.344-02");
+        try {
+            clienteService.adicionar(cliente);
+            fail("Deveria ter lançado exceção por não ter o nome completo!");
+        } catch (BusinessException e) {
+            assertEquals("Informe seu nome completo!", e.getMessage());
          }
     }
+
+    @Test
+    public void deveriaFalharPorTerNomeAbreviado() {
+        Cliente cliente = new Cliente(1L, "Fulano S", "000.211.344-02");
+        try {
+            clienteService.adicionar(cliente);
+            fail("Deveria ter lançado exceção por ter abreviações!");
+        } catch (BusinessException e) {
+            assertEquals("Informe seu nome sem abreviações!", e.getMessage());
+        }
+    }
+
+    @Test
+    public void deveriaFalharPorNaoTerCPF() {
+        Cliente cliente = new Cliente(1L, "Fulano Silva", null);
+        try {
+            clienteService.adicionar(cliente);
+            fail("Deveria ter lançado exceção por não ter CPF!");
+        } catch (BusinessException e) {
+            assertEquals("Informe seu CPF!", e.getMessage());
+        }
+    }
+
+    @Test
+    public void deveriaFalharPorTerCPFInvalido() {
+        Cliente cliente = new Cliente(1L, "Fulano Silva", "112.000.111");
+        try {
+            clienteService.adicionar(cliente);
+            fail("Deveria ter lançado exceção por não ter CPF válido!");
+        } catch (BusinessException e) {
+            assertEquals("Informe seu CPF com 11 dígitos!", e.getMessage());
+        }
+    }
+
+    @Test
+    public void deveriaValidarSeAdimplente() throws BusinessException {
+        Cliente cliente = new Cliente(1L, "Fulano Silva", "112.000.111");
+        when(clienteRepository.find(1L)).thenReturn(cliente);
+
+        clienteService.validarSeAdimplente(1L);
+
+        verify(clienteRepository).find(1L);
+    }
+
+    @Test
+    public void deveriaFalharSeInadimplente() throws BusinessException {
+        Cliente cliente = new Cliente(1L, "Fulano Silva", "112.000.111");
+        cliente.setInadimplente(true);
+        when(clienteRepository.find(1L)).thenReturn(cliente);
+
+        try {
+            clienteService.validarSeAdimplente(1L);
+            fail("Deveria ter falhado pois é inadimplente!");
+        }catch (BusinessException e){
+            assertEquals("Cliente não está adimplente!", e.getMessage());
+        }
+
+        verify(clienteRepository).find(1L);
+    }
+
 }
