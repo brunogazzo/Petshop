@@ -53,8 +53,8 @@ public class AnimalServiceTest {
         List<Animal> listaCliente02 = Arrays.asList(
                 new Animal("Rex", LocalDate.now(), MAMIFERO, 02L)
         );
-        when(animalRepository.listar(1L)).thenReturn(listaCliente01);
-        when(animalRepository.listar(2L)).thenReturn(listaCliente02);
+        when(animalRepository.findByClientId(1L)).thenReturn(listaCliente01);
+        when(animalRepository.findByClientId(2L)).thenReturn(listaCliente02);
 
         //Act
         List<Animal> animaisCliente01 = animalService.listar(1L);
@@ -79,10 +79,10 @@ public class AnimalServiceTest {
                 new String[]{REPTIL.name(), MAMIFERO.name(), PEIXE.name()});
     }
 
-    @Test
-    public void deveriaFalharClienteInadinplente() throws BusinessException {
+//    @Test
+//    public void deveriaFalharClienteInadinplente() throws BusinessException {
 //        when(clienteService.validarSeAdimplente(01L)).thenThrow(BusinessException.class);
-        //Em métodos VOID para retornar exceção:
+//        Em métodos VOID para retornar exceção:
 //        doThrow(BusinessException.class).when(clienteService).validarSeAdimplente(01L);
-    }
+//    }
 }

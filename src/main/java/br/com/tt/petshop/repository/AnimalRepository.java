@@ -1,17 +1,16 @@
 package br.com.tt.petshop.repository;
 
-import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.model.Animal;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-@Repository
-public class AnimalRepository {
+//@Repository
+public interface AnimalRepository extends JpaRepository<Animal, Long> {
+    List<Animal> findByClientId(Long clientId);
 
+/*
     List<Animal> animais = new ArrayList<>(Arrays.asList(
             new Animal("Rex", LocalDate.now(),
                     EspecieEnum.MAMIFERO, 1L),
@@ -31,5 +30,5 @@ public class AnimalRepository {
 
     public void save(Animal animal) {
         animais.add(animal);
-    }
+    }*/
 }

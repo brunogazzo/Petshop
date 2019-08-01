@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -66,7 +67,7 @@ public class ClienteService {
     }
 
     public void validarSeAdimplente(Long clientId) throws BusinessException {
-        Cliente cliente = clienteRepository.find(clientId);
+        Cliente cliente = clienteRepository.getOne(clientId);
 
         if(cliente.isInadimplente()){
             throw new BusinessException("Cliente não está adimplente!");
