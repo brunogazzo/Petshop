@@ -3,6 +3,7 @@ package br.com.tt.petshop.model;
 import br.com.tt.petshop.model.vo.Cpf;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +23,9 @@ public class Cliente {
 
     @Column(name = "INADIMPLENTE")
     private Boolean inadimplente;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Animal> animais;
 
     public Cliente(){
         this.inadimplente = Boolean.FALSE;

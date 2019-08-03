@@ -1,6 +1,5 @@
 package br.com.tt.petshop.service;
 
-import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Animal;
 import br.com.tt.petshop.repository.AnimalRepository;
 import org.junit.Before;
@@ -53,8 +52,8 @@ public class AnimalServiceTest {
         List<Animal> listaCliente02 = Arrays.asList(
                 new Animal("Rex", LocalDate.now(), MAMIFERO, 02L)
         );
-        when(animalRepository.findByClientId(1L)).thenReturn(listaCliente01);
-        when(animalRepository.findByClientId(2L)).thenReturn(listaCliente02);
+        when(animalRepository.findByClienteId(1L)).thenReturn(listaCliente01);
+        when(animalRepository.findByClienteId(2L)).thenReturn(listaCliente02);
 
         //Act
         List<Animal> animaisCliente01 = animalService.listar(1L);
@@ -64,7 +63,7 @@ public class AnimalServiceTest {
         //Asserts
         assertEquals("Deveria retornar o animal Rex do Client Id 01",
                 Long.valueOf(1L),
-                animaisCliente01.get(0).getClientId());
+                animaisCliente01.get(0).getCliente().getId());
 
         assertEquals("Deveria retornar a lista do cliente02",
                 listaCliente02,

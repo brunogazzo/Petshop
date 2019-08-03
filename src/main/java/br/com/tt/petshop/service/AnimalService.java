@@ -3,10 +3,10 @@ package br.com.tt.petshop.service;
 import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Animal;
+import br.com.tt.petshop.model.vo.DataNascimento;
 import br.com.tt.petshop.repository.AnimalRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +25,7 @@ public class AnimalService {
     }
 
     public List<Animal> listar(Long clientId){
-        return animalRepository.findByClientId(clientId);
+        return animalRepository.findByClienteId(clientId);
     }
 
     public List<String> listarEspecies() {
@@ -45,7 +45,7 @@ public class AnimalService {
 
         validarSeDataNascimentoMenorOuIgualHoje(animal.getDataNascimento());
         validarTamanhoMinimoNome(animal.getNome());
-        clienteService.validarSeAdimplente(animal.getClientId());
+        clienteService.validarSeAdimplente(animal.getCliente().getId());
 
         animalRepository.save(animal);
     }
@@ -61,19 +61,11 @@ public class AnimalService {
                             "O nome deve conter ao menos %d caracteres!",
                             TAMANHO_MININO_NOME));
         }
-
     }
 
-    private void validarSeDataNascimentoMenorOuIgualHoje(LocalDate dataNascimento) throws BusinessException {
-
-        if(Objects.isNull(dataNascimento) ||
-                LocalDate.now().isBefore(dataNascimento)){
-//            if(Objects.isNull(animal.getDataNascimento())
-//                    || animal.getDataNascimento().isAfter(LocalDate.now())){
+    private void validarSeDataNascimentoMenorOuIgualHoje(DataNascimento dataNascimento) throws BusinessException {
+        if(!dataNascimento.isValida()){
           throw new BusinessException("A data de nascimento deve ser anterior ou igual a hoje!");
         }
-
-
-
     }
 }
