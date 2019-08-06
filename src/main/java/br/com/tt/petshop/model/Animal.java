@@ -5,6 +5,7 @@ import br.com.tt.petshop.model.vo.DataNascimento;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "TB_ANIMAL")
@@ -28,8 +29,15 @@ public class Animal {
 //    private Long clientId;
 
     @ManyToOne
-    @JoinColumn(name = "CLIENT_ID")
+    @JoinColumn(name = "ID_CLIENTE")
     private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_UNIDADE")
+    private Unidade unidade;
+
+    @OneToMany(mappedBy = "animal")
+    private List<Produto> produtos;
 
     public Animal() {
         this.dataNascimento = new DataNascimento();
@@ -74,6 +82,22 @@ public class Animal {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Unidade getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_animal")

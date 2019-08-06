@@ -27,6 +27,10 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private List<Animal> animais;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_UNIDADE")
+    private Unidade unidade;
+
     public Cliente(){
         this.inadimplente = Boolean.FALSE;
         this.cpf = new Cpf(null);
@@ -84,5 +88,13 @@ public class Cliente {
 
     public void setCpf(Cpf cpf) {
         this.cpf = cpf;
+    }
+
+    public Unidade getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
     }
 }
