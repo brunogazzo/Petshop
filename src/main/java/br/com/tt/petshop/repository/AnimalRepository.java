@@ -1,14 +1,17 @@
 package br.com.tt.petshop.repository;
 
+import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.model.Animal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 //@Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
     List<Animal> findByClienteId(Long clientId);
     List<Animal> findByNome(String nome);
+    List<Animal> findByDataNascimentoDataBetweenAndEspecieIs(LocalDate dataInicio, LocalDate dataFim, EspecieEnum especie);
 
 /*
     List<Animal> animais = new ArrayList<>(Arrays.asList(
