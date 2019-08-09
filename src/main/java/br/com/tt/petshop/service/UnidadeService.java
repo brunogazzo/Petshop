@@ -28,4 +28,7 @@ public class UnidadeService {
         return unidadeRepository.save(unidade);
     }
 
+    public void update(Unidade unidade) {
+        unidadeRepository.save(unidade);
+    }
 }
