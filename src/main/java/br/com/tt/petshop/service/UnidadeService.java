@@ -31,4 +31,8 @@ public class UnidadeService {
     public void update(Unidade unidade) {
         unidadeRepository.save(unidade);
     }
+
+    public void deleteById(Long id) {
+        unidadeRepository.deleteById(id);
+    }
 }
