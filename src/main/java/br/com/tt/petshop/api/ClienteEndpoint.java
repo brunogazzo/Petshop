@@ -1,10 +1,10 @@
 package br.com.tt.petshop.api;
 
 import br.com.tt.petshop.dto.ClienteDto;
-import br.com.tt.petshop.dto.factory.ClienteDtoFactory;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.service.ClienteService;
+import org.modelmapper.ModelMapper;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +22,11 @@ import static org.springframework.http.ResponseEntity.*;
 public class ClienteEndpoint {
 
     private final ClienteService clienteService;
+    private final ModelMapper mapper;
 
-    public ClienteEndpoint(ClienteService clienteService) {
+    public ClienteEndpoint(ClienteService clienteService, ModelMapper mapper) {
         this.clienteService = clienteService;
+        this.mapper = mapper;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,7 +46,8 @@ public class ClienteEndpoint {
     public ResponseEntity<ClienteDto> findById(@PathVariable Long id){
         Optional<Cliente> clienteOptional = clienteService.findById(id);
         if(clienteOptional.isPresent()){
-            return ok(ClienteDtoFactory.from(clienteOptional.get()));
+            ClienteDto dto = mapper.map(clienteOptional.get(), ClienteDto.class);
+            return ok(dto);
         }
         return notFound().build();
     }
