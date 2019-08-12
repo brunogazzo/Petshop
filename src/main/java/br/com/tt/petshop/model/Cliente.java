@@ -31,6 +31,7 @@ public class Cliente {
     @JoinColumn(name = "ID_UNIDADE")
     private Unidade unidade;
 
+
     public Cliente(){
         this.inadimplente = Boolean.FALSE;
         this.cpf = new Cpf(null);

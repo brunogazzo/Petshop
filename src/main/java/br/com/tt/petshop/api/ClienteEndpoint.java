@@ -1,5 +1,7 @@
 package br.com.tt.petshop.api;
 
+import br.com.tt.petshop.dto.ClienteDto;
+import br.com.tt.petshop.dto.factory.ClienteDtoFactory;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.service.ClienteService;
@@ -39,10 +41,10 @@ public class ClienteEndpoint {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Cliente> findById(@PathVariable Long id){
+    public ResponseEntity<ClienteDto> findById(@PathVariable Long id){
         Optional<Cliente> clienteOptional = clienteService.findById(id);
         if(clienteOptional.isPresent()){
-            return ok(clienteOptional.get());
+            return ok(ClienteDtoFactory.from(clienteOptional.get()));
         }
         return notFound().build();
     }
