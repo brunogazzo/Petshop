@@ -98,4 +98,12 @@ public class Cliente {
     public void setUnidade(Unidade unidade) {
         this.unidade = unidade;
     }
+
+    public List<Animal> getAnimais() {
+        return animais;
+    }
+
+    public void setAnimais(List<Animal> animais) {
+        this.animais = animais;
+    }
 }

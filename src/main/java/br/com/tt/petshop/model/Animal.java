@@ -102,6 +102,14 @@ public class Animal {
         this.produtos = produtos;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_animal")
 //    @SequenceGenerator(schema = "schema", sequenceName = "seqeqew", name = "seq_animal")
 

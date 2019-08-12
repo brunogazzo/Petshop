@@ -3,7 +3,6 @@ package br.com.tt.petshop.service;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.repository.ClienteRepository;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,7 +79,7 @@ public class ClienteService {
         return clienteRepository.findById(id);
     }
 
-    public void update(Long id, Cliente cliente) throws NotFound {
+    public void update(Long id, Cliente cliente) {
         Optional<Cliente> clienteOptional = this.findById(id);
 
         if(clienteOptional.isPresent()){

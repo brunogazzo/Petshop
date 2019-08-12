@@ -14,10 +14,10 @@ public class Cpf {
                 && valor.replaceAll("\\D", "").length() == 11;
     }
 
-    @Override
-    public String toString() {
-        return valor;
-    }
+//    @Override
+//    public String toString() {
+//        return valor;
+//    }
 
     public Cpf(){
     }

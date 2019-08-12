@@ -5,7 +5,6 @@ import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.service.ClienteService;
 import org.modelmapper.ModelMapper;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +52,7 @@ public class ClienteEndpoint {
     }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity update(@RequestBody Cliente cliente, @PathVariable Long id) throws NotFound {
+    public ResponseEntity update(@RequestBody Cliente cliente, @PathVariable Long id){
         clienteService.update(id, cliente);
         return noContent().build();
     }
