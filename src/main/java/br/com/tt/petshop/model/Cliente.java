@@ -37,6 +37,10 @@ public class Cliente {
         this.cpf = new Cpf(null);
     }
 
+    public Cliente(Long id){
+        this.id = id;
+    }
+
     public Cliente(Long id, String nome, String cpf) {
         this.id = id;
         this.nome = nome;

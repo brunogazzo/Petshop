@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static org.springframework.http.ResponseEntity.*;
@@ -29,15 +30,18 @@ public class ClienteEndpoint {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Cliente>> findAll(){
-        return ok(clienteService.listar());
+    public ResponseEntity<List<ClienteDto>> findAll(){
+        return ok(clienteService
+                .listar().stream()
+                .map(c -> mapper.map(c, ClienteDto.class))
+                .collect(Collectors.toList()));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity create(@RequestBody Cliente cliente) throws BusinessException {
+    public ResponseEntity create(@RequestBody ClienteDto clienteDto) throws BusinessException {
         URI location = URI.create(
                 format("/clientes/%d",
-                clienteService.adicionar(cliente).getId()));
+                clienteService.adicionar(mapper.map(clienteDto, Cliente.class)).getId()));
         return created(location).build();
     }
 
