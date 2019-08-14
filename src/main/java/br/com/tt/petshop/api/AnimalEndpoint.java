@@ -2,6 +2,7 @@ package br.com.tt.petshop.api;
 
 import br.com.tt.petshop.dto.AnimalDto;
 import br.com.tt.petshop.service.AnimalService;
+import io.swagger.annotations.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/animais")
+@Api("Animal Controller")
 public class AnimalEndpoint {
 
     private final AnimalService animalService;
@@ -27,8 +29,15 @@ public class AnimalEndpoint {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("Lista os animais ativos do sistema")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Lista de animais retornada com sucesso"),
+            @ApiResponse(code = 400, message = "Parâmetros informados incorretamente")
+    })
     public ResponseEntity<List<AnimalDto>> list(
+            @ApiParam("Id do Cliente para filtro")
             @RequestParam Optional<Long> clienteId,
+            @ApiParam("Nome do Animal")
             @RequestParam Optional<String> nome){
         return ResponseEntity.ok(
                 animalService.listarByExample(clienteId, nome)
