@@ -40,7 +40,7 @@ public class AnimalRepositoryIT {
         assertEquals("Deveria retornar um animal", 1, list.size());
         Animal rex = list.get(0);
         assertEquals("O nome deveria ser Rex", "Rex", rex.getNome());
-        assertEquals("O cliente deveria ser o 133", Long.valueOf(133), rex.getCliente().getId());
+        assertEquals("O client deveria ser o 133", Long.valueOf(133), rex.getCliente().getId());
         assertEquals("Deveria ser um mamífero", EspecieEnum.MAMIFERO, rex.getEspecie());
     }
 
@@ -51,7 +51,7 @@ public class AnimalRepositoryIT {
         assertEquals("Deveria retornar um animal", 1, list.size());
         Animal rex = list.get(0);
         assertEquals("O nome deveria ser Rex", "Rex", rex.getNome());
-        assertEquals("O cliente deveria ser o 133", Long.valueOf(133), rex.getCliente().getId());
+        assertEquals("O client deveria ser o 133", Long.valueOf(133), rex.getCliente().getId());
         assertEquals("Deveria ser um mamífero", EspecieEnum.MAMIFERO, rex.getEspecie());
     }
 

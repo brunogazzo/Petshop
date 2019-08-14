@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/animais")
-@Api("Animal Controller")
+@Api(tags = "Animal", description = "Animal Controller")
 public class AnimalEndpoint {
 
     private final AnimalService animalService;

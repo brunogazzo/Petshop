@@ -39,7 +39,7 @@ public class ClienteServiceTest {
         //Assert
         assertNotNull("A lista não deveria ser nula",
                 clientes);
-        assertEquals("A lista deveria retornar nenhum cliente",
+        assertEquals("A lista deveria retornar nenhum client",
                 0, clientes.size());
         verify(clienteRepository, times(1)).findAll();
     }

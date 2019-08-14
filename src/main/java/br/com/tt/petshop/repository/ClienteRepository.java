@@ -2,13 +2,6 @@ package br.com.tt.petshop.repository;
 
 import br.com.tt.petshop.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 //@Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
@@ -19,17 +12,17 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 //            new Cliente(2L, "Ciclano", "111.222.333-44")
 //    ));
 //
-//    public void delete(Cliente cliente) {
-//        clientes.remove(cliente);
+//    public void delete(Cliente client) {
+//        clientes.remove(client);
 //    }
 //
-//    public void save(Cliente cliente) {
+//    public void save(Cliente client) {
 //        try {
-//            cliente.setId(SecureRandom.getInstanceStrong().nextLong());
+//            client.setId(SecureRandom.getInstanceStrong().nextLong());
 //        } catch (NoSuchAlgorithmException e) {
 //            e.printStackTrace();
 //        }
-//        clientes.add(cliente);
+//        clientes.add(client);
 //    }
 //
 //    public List<Cliente> findAll() {
@@ -37,16 +30,16 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 //    }
 //
 //    public Cliente find(Long clientId) {
-////        Cliente cliente = new Cliente();
-////        cliente.setId(clientId);
-////        int index = clientes.indexOf(cliente);
+////        Cliente client = new Cliente();
+////        client.setId(clientId);
+////        int index = clientes.indexOf(client);
 ////        if(index > 0){
 ////            return clientes.get(index);
 ////        }
 //
-//        for (Cliente cliente: clientes) {
-//            if(cliente.getId().equals(clientId)){
-//                return cliente;
+//        for (Cliente client: clientes) {
+//            if(client.getId().equals(clientId)){
+//                return client;
 //            }
 //        }
 //        return null;
