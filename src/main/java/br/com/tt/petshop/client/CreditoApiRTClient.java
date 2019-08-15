@@ -4,6 +4,7 @@ import br.com.tt.petshop.client.dto.CreditoDto;
 import br.com.tt.petshop.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -11,7 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 
 @Component
-public class CreditoApiRTClient {
+@Qualifier("restTemplate")
+public class CreditoApiRTClient implements CreditoApiClient {
 
     private final RestTemplate restTemplate;
     private static final Logger LOGGER = LoggerFactory.getLogger(CreditoApiRTClient.class);
@@ -20,6 +22,7 @@ public class CreditoApiRTClient {
         this.restTemplate = restTemplate;
     }
 
+    @Override
     public CreditoDto verificaSituacao(String cpf) throws BusinessException {
         URI url = URI
                 .create("https://imersao-credito-api.herokuapp.com/credito/"+cpf);
@@ -35,6 +38,9 @@ public class CreditoApiRTClient {
             }else{
                 throw new BusinessException("Serviço de consulta ao Credito indisponível");
             }
+        } catch (Exception e){
+            LOGGER.info("Erro ao acessar serviço de crédito", e);
+            throw new BusinessException("Serviço de consulta ao Credito indisponível");
         }
     }
 
