@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class ClienteEndpoint {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity create(@RequestBody ClienteDto clienteDto) throws BusinessException {
+    public ResponseEntity create(@RequestBody @Valid ClienteDto clienteDto) throws BusinessException {
         URI location = URI.create(
                 format("/clientes/%d",
                 clienteService.adicionar(mapper.map(clienteDto, Cliente.class)).getId()));

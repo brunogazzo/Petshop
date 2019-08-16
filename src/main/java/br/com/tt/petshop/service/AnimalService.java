@@ -1,15 +1,20 @@
 package br.com.tt.petshop.service;
 
+import br.com.tt.petshop.dto.AnimalDto;
 import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.exception.BusinessException;
+import br.com.tt.petshop.exception.ClienteNotFoundException;
 import br.com.tt.petshop.model.Animal;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.model.vo.DataNascimento;
 import br.com.tt.petshop.repository.AnimalRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,10 +27,12 @@ public class AnimalService {
 
     private final AnimalRepository animalRepository;
     private final ClienteService clienteService;
+    private final ModelMapper mapper;
 
-    public AnimalService(AnimalRepository animalRepository, ClienteService clienteService) {
+    public AnimalService(AnimalRepository animalRepository, ClienteService clienteService, ModelMapper mapper) {
         this.animalRepository = animalRepository;
         this.clienteService = clienteService;
+        this.mapper = mapper;
     }
 
     public List<Animal> listar(Long clientId){
@@ -42,7 +49,20 @@ public class AnimalService {
 
     }
 
-    public void salvar(Animal animal) throws BusinessException {
+    public Animal salvar(@NotNull @Valid AnimalDto animalDto) throws BusinessException {
+        Optional<Cliente> cliente = clienteService.findById(animalDto.getClienteId());
+
+        Animal animal = mapper.map(animalDto, Animal.class);
+//        animal.setCliente(cliente.orElseThrow(() -> new BusinessException("Cliente não existe!")));
+        animal.setCliente(cliente.orElseThrow(ClienteNotFoundException::new));
+        return salvar(animal);
+    }
+
+    /**
+     * @deprecated Utilizar o salvar(animalDto) que possui o id do cliente.
+     */
+    @Deprecated
+    public Animal salvar(Animal animal) throws BusinessException {
         if(Objects.isNull(animal)){
             throw new IllegalArgumentException("Animal deve ser informado!");
         }
@@ -51,7 +71,7 @@ public class AnimalService {
         validarTamanhoMinimoNome(animal.getNome());
         clienteService.validarSeAdimplente(animal.getCliente().getId());
 
-        animalRepository.save(animal);
+        return animalRepository.save(animal);
     }
 
     private void validarTamanhoMinimoNome(String nome) throws BusinessException {

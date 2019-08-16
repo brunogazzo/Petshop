@@ -1,16 +1,17 @@
 package br.com.tt.petshop.api;
 
 import br.com.tt.petshop.dto.AnimalDto;
+import br.com.tt.petshop.exception.BusinessException;
+import br.com.tt.petshop.model.Animal;
 import br.com.tt.petshop.service.AnimalService;
 import io.swagger.annotations.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,4 +46,18 @@ public class AnimalEndpoint {
                 .map(a -> mapper.map(a, AnimalDto.class))
                 .collect(Collectors.toList()));
     }
+
+    @PostMapping
+    @ApiOperation("Salva um animal")
+    public ResponseEntity create(
+            @ApiParam("Informações do animal a ser criado")
+            @RequestBody @Valid AnimalDto animalDto)
+            throws BusinessException {
+
+        Animal animalCriado = animalService.salvar(animalDto);
+
+        URI location = URI.create(String.format("/animais/%d", animalCriado.getId()));
+        return ResponseEntity.created(location).build();
+    }
+
 }
