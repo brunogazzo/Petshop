@@ -2,6 +2,8 @@ package br.com.tt.petshop.api;
 
 import br.com.tt.petshop.dto.AnimalDto;
 import br.com.tt.petshop.exception.BusinessException;
+import br.com.tt.petshop.exception.ClienteNotFoundException;
+import br.com.tt.petshop.exception.dto.ApiErrorDto;
 import br.com.tt.petshop.model.Animal;
 import br.com.tt.petshop.service.AnimalService;
 import io.swagger.annotations.*;
@@ -58,6 +60,18 @@ public class AnimalEndpoint {
 
         URI location = URI.create(String.format("/animais/%d", animalCriado.getId()));
         return ResponseEntity.created(location).build();
+    }
+
+    @ExceptionHandler(ClienteNotFoundException.class)
+    public ResponseEntity handleClienteNotFoundException(ClienteNotFoundException e){
+
+        ApiErrorDto dto = new ApiErrorDto(
+                "cliente_nao_existe",
+                String.format("O cliente com id: %s não foi encontrado!", e.getClientId()));
+
+        return ResponseEntity
+                .unprocessableEntity()
+                .body(dto);
     }
 
 }

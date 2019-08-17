@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -21,6 +22,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Validated
 public class AnimalService {
 
     private static final int TAMANHO_MININO_NOME = 3;
@@ -54,7 +56,7 @@ public class AnimalService {
 
         Animal animal = mapper.map(animalDto, Animal.class);
 //        animal.setCliente(cliente.orElseThrow(() -> new BusinessException("Cliente não existe!")));
-        animal.setCliente(cliente.orElseThrow(ClienteNotFoundException::new));
+        animal.setCliente(cliente.orElseThrow(() -> new ClienteNotFoundException(animalDto.getClienteId())));
         return salvar(animal);
     }
 
