@@ -1,5 +1,6 @@
 package br.com.tt.petshop.api;
 
+import br.com.tt.petshop.api.groups.OnPost;
 import br.com.tt.petshop.dto.AnimalDto;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.exception.ClienteNotFoundException;
@@ -10,9 +11,9 @@ import io.swagger.annotations.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +54,7 @@ public class AnimalEndpoint {
     @ApiOperation("Salva um animal")
     public ResponseEntity create(
             @ApiParam("Informações do animal a ser criado")
-            @RequestBody @Valid AnimalDto animalDto)
+            @RequestBody @Validated(OnPost.class) AnimalDto animalDto)
             throws BusinessException {
 
         Animal animalCriado = animalService.salvar(animalDto);
@@ -62,7 +63,16 @@ public class AnimalEndpoint {
         return ResponseEntity.created(location).build();
     }
 
-    @ExceptionHandler(ClienteNotFoundException.class)
+    @PutMapping
+    @ApiOperation("Salva um animal")
+    public ResponseEntity put(
+            @ApiParam("Informações do animal a ser criado")
+            @RequestBody @Validated AnimalDto animalDto)
+            throws BusinessException {
+        return ResponseEntity.ok().build();
+    }
+
+        @ExceptionHandler(ClienteNotFoundException.class)
     public ResponseEntity handleClienteNotFoundException(ClienteNotFoundException e){
 
         ApiErrorDto dto = new ApiErrorDto(

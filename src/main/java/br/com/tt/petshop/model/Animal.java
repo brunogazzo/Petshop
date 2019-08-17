@@ -5,6 +5,8 @@ import br.com.tt.petshop.model.vo.DataNascimento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,12 +19,14 @@ public class Animal {
     @Column(name = "codigo")
     private Long id;
 
+    @NotBlank
     private String nome;
 
     @Embedded
     private DataNascimento dataNascimento;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private EspecieEnum especie;
 
 //    @Column(name = "client_id",
