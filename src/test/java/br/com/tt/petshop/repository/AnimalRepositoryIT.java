@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -18,6 +19,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @Sql(value = "classpath:limpa.sql", executionPhase = BEFORE_TEST_METHOD)
+@ActiveProfiles("test-jpa")
 public class AnimalRepositoryIT {
 
     @Autowired
