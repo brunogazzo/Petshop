@@ -17,6 +17,14 @@ public class Unidade {
     @Column(name = "endereco")
     private String endereco;
 
+    public Unidade() {
+    }
+
+    public Unidade(String nome, String endereco) {
+        this.nome = nome;
+        this.endereco = endereco;
+    }
+
     public Long getId() {
         return id;
     }
