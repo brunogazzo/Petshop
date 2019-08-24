@@ -7,7 +7,11 @@ import br.com.tt.petshop.service.ClienteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import sun.plugin.liveconnect.SecurityContextHelper;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -20,6 +24,7 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping("/clientes")
+@PreAuthorize("hasAuthority('boss')")
 public class ClienteEndpoint {
 
     private final ClienteService clienteService;
@@ -32,6 +37,11 @@ public class ClienteEndpoint {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ClienteDto>> findAll(){
+
+        System.out.println(SecurityContextHolder
+        .getContext()
+        .getAuthentication());
+
         return ok(clienteService
                 .listar().stream()
                 .map(c -> mapper.map(c, ClienteDto.class))
